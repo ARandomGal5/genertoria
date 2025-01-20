@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=4 format=3 uid="uid://8dekfgs44rvd"]
+
+[ext_resource type="Resource" uid="uid://bh6idmke4t2j5" path="res://resources/projectile_stats/bullet.tres" id="1_0hci6"]
+[ext_resource type="Script" path="res://scripts/custom_resources/weapon.gd" id="1_eiy2a"]
+[ext_resource type="AudioStream" uid="uid://bmfxajx52tihn" path="res://resources/sounds/pistol.ogg" id="3_kec1q"]
+
+[resource]
+script = ExtResource("1_eiy2a")
+projectile = ExtResource("1_0hci6")
+full_auto = true
+crit_chance = 10
+use_time = 30
+energy_use = 5
+sound = ExtResource("3_kec1q")

@@ -1,0 +1,57 @@
+[gd_scene load_steps=5 format=3 uid="uid://ccfkk3di5ruip"]
+
+[ext_resource type="Script" path="res://scripts/gui/player_hud.gd" id="1_7xrrc"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_5gem2"]
+size = Vector2(512, 64)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_jdn51"]
+size = Vector2(512, 64)
+
+[sub_resource type="LabelSettings" id="LabelSettings_lkn3e"]
+font_size = 64
+
+[node name="PlayerHud" type="CanvasLayer"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_7xrrc")
+
+[node name="Health" type="Control" parent="Control"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Bar" type="TextureProgressBar" parent="Control/Health"]
+layout_mode = 0
+offset_right = 512.0
+offset_bottom = 64.0
+value = 100.0
+texture_under = SubResource("PlaceholderTexture2D_5gem2")
+texture_progress = SubResource("PlaceholderTexture2D_jdn51")
+tint_under = Color(0.705882, 0.486275, 0, 0)
+tint_over = Color(1, 1, 1, 0)
+tint_progress = Color(0.59, 0, 0, 1)
+
+[node name="OverHeal" type="TextureProgressBar" parent="Control/Health"]
+layout_mode = 0
+offset_right = 512.0
+offset_bottom = 64.0
+min_value = 100.0
+max_value = 200.0
+value = 100.0
+texture_progress = SubResource("PlaceholderTexture2D_jdn51")
+tint_under = Color(0.705882, 0.486275, 0, 0)
+tint_over = Color(1, 1, 1, 0)
+
+[node name="Number" type="Label" parent="Control/Health"]
+layout_mode = 0
+offset_left = 184.0
+offset_top = -16.0
+offset_right = 294.0
+offset_bottom = 72.0
+text = "100"
+label_settings = SubResource("LabelSettings_lkn3e")

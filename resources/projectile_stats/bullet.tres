@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ProjectileStats" load_steps=4 format=3 uid="uid://bh6idmke4t2j5"]
+
+[ext_resource type="Script" path="res://scripts/custom_resources/projectile_stats.gd" id="1_u6idr"]
+[ext_resource type="Texture2D" uid="uid://b881capcm3k7s" path="res://resources/sprites/projectiles/bullet.png" id="2_mdoi0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uys3a"]
+
+[resource]
+script = ExtResource("1_u6idr")
+sprite = ExtResource("2_mdoi0")
+velocity = 2500
+damage = 10
+knock_back = Vector2(10, 5)
+hit_box = SubResource("RectangleShape2D_uys3a")
+heal = 10
+kill_heal = 20

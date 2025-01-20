@@ -1,19 +1,99 @@
-[gd_scene load_steps=4 format=3 uid="uid://l8p7ptg1p4ef"]
+[gd_scene load_steps=18 format=3 uid="uid://l8p7ptg1p4ef"]
 
 [ext_resource type="Script" path="res://scripts/objects/player.gd" id="1_ggde0"]
+[ext_resource type="PackedScene" uid="uid://ccfkk3di5ruip" path="res://scenes/gui/player_hud.tscn" id="2_8dxkh"]
+[ext_resource type="AudioStream" uid="uid://bfs74ehlgtkkw" path="res://resources/sounds/hurt.ogg" id="3_00tpd"]
+[ext_resource type="Script" path="res://scripts/objects/player_states/run.gd" id="4_8arm6"]
+[ext_resource type="AudioStream" uid="uid://0uon6exijmxx" path="res://resources/sounds/deny.ogg" id="4_bnb7t"]
+[ext_resource type="Script" path="res://scripts/objects/player_states/jump.gd" id="4_xafp3"]
+[ext_resource type="Script" path="res://scripts/objects/player_states/fall.gd" id="5_bhjpj"]
+[ext_resource type="Script" path="res://scripts/objects/player_states/hurt.gd" id="7_vur4c"]
+[ext_resource type="Script" path="res://scripts/objects/player_states/idle.gd" id="8_186sq"]
+[ext_resource type="AudioStream" uid="uid://b8rlnvcjhfh2b" path="res://resources/sounds/crit.ogg" id="10_sqhdd"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="11_jy5r5"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="12_xf61w"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="13_d47vs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_14v24"]
+size = Vector2(32, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jug7k"]
+size = Vector2(32, 48)
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_0kt3r"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_gyqmr"]
-size = Vector2(64, 96)
+[sub_resource type="Resource" id="Resource_78n1y"]
+script = ExtResource("13_d47vs")
+duration = 1.0
+transition = 0
+ease = 2
 
 [node name="Player" type="CharacterBody2D"]
+collision_layer = 2
 script = ExtResource("1_ggde0")
+
+[node name="States" type="Node" parent="."]
+
+[node name="PlayerRun" type="Node" parent="States"]
+script = ExtResource("4_8arm6")
+
+[node name="PlayerJump" type="Node" parent="States"]
+script = ExtResource("4_xafp3")
+
+[node name="PlayerFall" type="Node" parent="States"]
+script = ExtResource("5_bhjpj")
+
+[node name="PlayerHurt" type="Node" parent="States"]
+script = ExtResource("7_vur4c")
+
+[node name="PlayerIdle" type="Node" parent="States"]
+script = ExtResource("8_186sq")
+
+[node name="BoundingBox" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_14v24")
+
+[node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+shape = SubResource("RectangleShape2D_jug7k")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-9.53674e-07, 4.76837e-07)
-scale = Vector2(64, 96)
+scale = Vector2(32, 48)
 texture = SubResource("PlaceholderTexture2D_0kt3r")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_gyqmr")
+[node name="PlayerHud" parent="." instance=ExtResource("2_8dxkh")]
+
+[node name="Sounds" type="Node2D" parent="."]
+
+[node name="Hurt" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("3_00tpd")
+
+[node name="Weapon" type="AudioStreamPlayer" parent="Sounds"]
+
+[node name="NoEnergy" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("4_bnb7t")
+
+[node name="Crit" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("10_sqhdd")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+physics_interpolation_mode = 1
+
+[node name="PhantomCameraHost" type="Node" parent="Camera2D"]
+process_priority = 300
+process_physics_priority = 300
+script = ExtResource("11_jy5r5")
+
+[node name="PhantomCamera2D" type="Node2D" parent="." node_paths=PackedStringArray("follow_target")]
+top_level = true
+script = ExtResource("12_xf61w")
+follow_mode = 2
+follow_target = NodePath("..")
+tween_resource = SubResource("Resource_78n1y")
+tween_on_load = false
+follow_damping = true
+
+[connection signal="body_entered" from="HurtBox" to="." method="_on_hurt_box_body_entered"]
