@@ -1,0 +1,32 @@
+[gd_scene load_steps=7 format=3 uid="uid://chevaij58w0w4"]
+
+[ext_resource type="Script" path="res://scripts/objects/npcs/enemies/dummy.gd" id="1_6rej7"]
+[ext_resource type="AudioStream" uid="uid://cwinuwa3oyuxr" path="res://resources/sounds/enemies/dummy/dummy_hurt1.ogg" id="2_8h0yv"]
+[ext_resource type="Texture2D" uid="uid://qp17q447err5" path="res://resources/sprites/npcs/enemies/dummy.png" id="2_r6cg4"]
+[ext_resource type="AudioStream" uid="uid://l42rttnre68b" path="res://resources/sounds/enemies/dummy/dummy_hurt2.ogg" id="3_dq1ll"]
+[ext_resource type="AudioStream" uid="uid://c1ia4wyotlmdk" path="res://resources/sounds/enemies/dummy/dummy_hurt3.ogg" id="4_t0soj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_205w1"]
+size = Vector2(32, 48)
+
+[node name="Dummy" type="CharacterBody2D"]
+collision_layer = 12
+script = ExtResource("1_6rej7")
+RecieveKnockBack = false
+hurt_sounds = Array[AudioStream]([ExtResource("2_8h0yv"), ExtResource("3_dq1ll"), ExtResource("4_t0soj")])
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("2_r6cg4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_205w1")
+
+[node name="Health" type="Label" parent="."]
+offset_left = -16.0
+offset_top = -80.0
+offset_right = 24.0
+offset_bottom = -57.0
+text = "100"
+
+[node name="HurtSound" type="AudioStreamPlayer2D" parent="."]

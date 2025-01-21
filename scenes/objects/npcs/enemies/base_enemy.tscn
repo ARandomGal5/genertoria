@@ -9,6 +9,7 @@ size = Vector2(32, 48)
 [node name="Enemy" type="CharacterBody2D"]
 collision_layer = 12
 script = ExtResource("1_f8vs1")
+knock_back = Vector2(300, 100)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(2, 2)
@@ -23,3 +24,5 @@ offset_top = -80.0
 offset_right = 24.0
 offset_bottom = -57.0
 text = "100"
+
+[node name="HurtSound" type="AudioStreamPlayer2D" parent="."]

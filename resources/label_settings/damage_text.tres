@@ -1,4 +1,8 @@
-[gd_resource type="LabelSettings" format=3 uid="uid://bjljm1ptyi6g7"]
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://bjljm1ptyi6g7"]
+
+[sub_resource type="SystemFont" id="SystemFont_jq04k"]
+font_names = PackedStringArray("m6x11")
 
 [resource]
+font = SubResource("SystemFont_jq04k")
 font_size = 32

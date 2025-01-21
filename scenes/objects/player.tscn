@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://l8p7ptg1p4ef"]
+[gd_scene load_steps=30 format=3 uid="uid://l8p7ptg1p4ef"]
 
 [ext_resource type="Script" path="res://scripts/objects/player.gd" id="1_ggde0"]
 [ext_resource type="PackedScene" uid="uid://ccfkk3di5ruip" path="res://scenes/gui/player_hud.tscn" id="2_8dxkh"]
@@ -7,12 +7,20 @@
 [ext_resource type="AudioStream" uid="uid://0uon6exijmxx" path="res://resources/sounds/deny.ogg" id="4_bnb7t"]
 [ext_resource type="Script" path="res://scripts/objects/player_states/jump.gd" id="4_xafp3"]
 [ext_resource type="Script" path="res://scripts/objects/player_states/fall.gd" id="5_bhjpj"]
+[ext_resource type="Script" path="res://scripts/objects/player_states/wall_slide.gd" id="7_kbf7r"]
 [ext_resource type="Script" path="res://scripts/objects/player_states/hurt.gd" id="7_vur4c"]
 [ext_resource type="Script" path="res://scripts/objects/player_states/idle.gd" id="8_186sq"]
+[ext_resource type="AudioStream" uid="uid://j5mk5aoyl3gw" path="res://resources/sounds/jump.ogg" id="8_k5i4a"]
+[ext_resource type="AudioStream" uid="uid://qx0g1e803oh5" path="res://resources/sounds/wall_slide.ogg" id="9_c7d4b"]
 [ext_resource type="AudioStream" uid="uid://b8rlnvcjhfh2b" path="res://resources/sounds/crit.ogg" id="10_sqhdd"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="11_jy5r5"]
+[ext_resource type="AudioStream" uid="uid://x2107u5rf2sx" path="res://resources/sounds/weapons/test_swing.ogg" id="12_hyekr"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="12_xf61w"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="13_d47vs"]
+[ext_resource type="AudioStream" uid="uid://bq2rmlx7k658y" path="res://resources/sounds/weapons/test_swing_big.ogg" id="18_hrmbt"]
+[ext_resource type="Texture2D" uid="uid://kgdp8oib5rqs" path="res://resources/sprites/weapons/world/test_swing1.png" id="19_sqfud"]
+[ext_resource type="Texture2D" uid="uid://bsc3nj4ugu0gi" path="res://resources/sprites/weapons/world/test_swing2.png" id="20_npmu8"]
+[ext_resource type="Texture2D" uid="uid://bmudxs7xrw3lj" path="res://resources/sprites/weapons/world/test_swing3.png" id="21_r2ya1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_14v24"]
 size = Vector2(32, 48)
@@ -28,8 +36,215 @@ duration = 1.0
 transition = 0
 ease = 2
 
+[sub_resource type="Animation" id="Animation_n381m"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeleeSwish:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("19_sqfud")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeleeSwish:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MeleeSwish:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(48, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MeleeSwish:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_s26cd"]
+_data = {
+"RESET": SubResource("Animation_n381m")
+}
+
+[sub_resource type="Animation" id="Animation_lye4l"]
+length = 2.5
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.75, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [Vector2(72, 16), Vector2(48, 0), 15, 15, 20, Vector2(0, 0), 20, 0],
+"method": &"_spawn_melee_hitbox"
+}, {
+"args": [Vector2(96, 16), Vector2(64, 0), 20, 25, 30, Vector2(0, 0), 20, 0],
+"method": &"_spawn_melee_hitbox"
+}, {
+"args": [Vector2(64, 96), Vector2(48, 0), 35, 40, 35, Vector2(1000, 200), 25, 0],
+"method": &"_spawn_melee_hitbox"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.25, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [0],
+"method": &"_delete_melee_hitbox"
+}, {
+"args": [0],
+"method": &"_delete_melee_hitbox"
+}, {
+"args": [0],
+"method": &"_delete_melee_hitbox"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.5, 1.25),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [20, 45],
+"method": &"_reswing_check"
+}, {
+"args": [25, 60],
+"method": &"_reswing_check"
+}]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(2.25),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_end_combo"
+}]
+}
+tracks/4/type = "audio"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sounds/Weapon")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("12_hyekr")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("12_hyekr")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("18_hrmbt")
+}],
+"times": PackedFloat32Array(0, 0.75, 1.5)
+}
+tracks/4/use_blend = true
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("MeleeSwish:texture")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.75, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [ExtResource("19_sqfud"), ExtResource("20_npmu8"), ExtResource("21_r2ya1")]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("MeleeSwish:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.75, 1, 1.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, false, true, false]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("MeleeSwish:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.75, 1.5),
+"transitions": PackedFloat32Array(2.39438e-05, 1e-05, 1e-05),
+"update": 1,
+"values": [Vector2(48, 0), Vector2(64, 0), Vector2(48, 0)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("MeleeSwish:modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.501961)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_eevh6"]
+_data = {
+"Test Sword": SubResource("Animation_lye4l")
+}
+
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
+collision_mask = 17
 script = ExtResource("1_ggde0")
 
 [node name="States" type="Node" parent="."]
@@ -49,6 +264,9 @@ script = ExtResource("7_vur4c")
 [node name="PlayerIdle" type="Node" parent="States"]
 script = ExtResource("8_186sq")
 
+[node name="PlayerWallSlide" type="Node" parent="States"]
+script = ExtResource("7_kbf7r")
+
 [node name="BoundingBox" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_14v24")
 
@@ -59,7 +277,7 @@ collision_mask = 8
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
 shape = SubResource("RectangleShape2D_jug7k")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Player" type="Sprite2D" parent="."]
 position = Vector2(-9.53674e-07, 4.76837e-07)
 scale = Vector2(32, 48)
 texture = SubResource("PlaceholderTexture2D_0kt3r")
@@ -67,6 +285,12 @@ texture = SubResource("PlaceholderTexture2D_0kt3r")
 [node name="PlayerHud" parent="." instance=ExtResource("2_8dxkh")]
 
 [node name="Sounds" type="Node2D" parent="."]
+
+[node name="Jump" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("8_k5i4a")
+
+[node name="WallSlide" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("9_c7d4b")
 
 [node name="Hurt" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("3_00tpd")
@@ -95,5 +319,17 @@ follow_target = NodePath("..")
 tween_resource = SubResource("Resource_78n1y")
 tween_on_load = false
 follow_damping = true
+
+[node name="MeleeFrameData" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_s26cd"),
+"Melee Frame Data": SubResource("AnimationLibrary_eevh6")
+}
+
+[node name="MeleeSwish" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(48, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("19_sqfud")
 
 [connection signal="body_entered" from="HurtBox" to="." method="_on_hurt_box_body_entered"]

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=4 format=3 uid="uid://b36a8ruilgkhk"]
+
+[ext_resource type="Script" path="res://scripts/custom_resources/weapon.gd" id="1_4bbif"]
+[ext_resource type="Texture2D" uid="uid://cv26b1jn0fomf" path="res://resources/sprites/weapons/icon/test_sword_icon.png" id="1_l156o"]
+[ext_resource type="AudioStream" uid="uid://x2107u5rf2sx" path="res://resources/sounds/weapons/test_swing.ogg" id="3_4b78j"]
+
+[resource]
+script = ExtResource("1_4bbif")
+frame_data = &"Melee Frame Data/Test Sword"
+type = 2
+crit_chance = 0
+use_time = 30
+energy_use = 20
+icon = ExtResource("1_l156o")
+sound = ExtResource("3_4b78j")

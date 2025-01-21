@@ -1,6 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://ccfkk3di5ruip"]
+[gd_scene load_steps=9 format=3 uid="uid://ccfkk3di5ruip"]
 
 [ext_resource type="Script" path="res://scripts/gui/player_hud.gd" id="1_7xrrc"]
+[ext_resource type="Texture2D" uid="uid://byd317t0athep" path="res://resources/sprites/weapons/icon/test_gun_icon.png" id="2_ebfy0"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_kmpvu"]
+font_size = 32
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_5gem2"]
 size = Vector2(512, 64)
@@ -8,8 +12,16 @@ size = Vector2(512, 64)
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_jdn51"]
 size = Vector2(512, 64)
 
+[sub_resource type="SystemFont" id="SystemFont_nylse"]
+font_names = PackedStringArray("m6x11")
+subpixel_positioning = 0
+
 [sub_resource type="LabelSettings" id="LabelSettings_lkn3e"]
+font = SubResource("SystemFont_nylse")
 font_size = 64
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_64d17"]
+size = Vector2(96, 96)
 
 [node name="PlayerHud" type="CanvasLayer"]
 
@@ -19,6 +31,14 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_7xrrc")
+
+[node name="DPS" type="Label" parent="Control"]
+layout_mode = 0
+offset_top = 68.0
+offset_right = 40.0
+offset_bottom = 91.0
+text = "DPS: 0"
+label_settings = SubResource("LabelSettings_kmpvu")
 
 [node name="Health" type="Control" parent="Control"]
 anchors_preset = 0
@@ -49,9 +69,89 @@ tint_over = Color(1, 1, 1, 0)
 
 [node name="Number" type="Label" parent="Control/Health"]
 layout_mode = 0
-offset_left = 184.0
-offset_top = -16.0
-offset_right = 294.0
-offset_bottom = 72.0
+offset_left = 206.0
+offset_top = 10.0
+offset_right = 290.0
+offset_bottom = 66.0
 text = "100"
 label_settings = SubResource("LabelSettings_lkn3e")
+
+[node name="HotBar" type="Control" parent="Control"]
+anchors_preset = 0
+offset_left = 1536.0
+offset_top = 32.0
+offset_right = 1576.0
+offset_bottom = 72.0
+
+[node name="Slot0" type="ColorRect" parent="Control/HotBar"]
+layout_mode = 0
+offset_right = 96.0
+offset_bottom = 96.0
+color = Color(0.431373, 0.431373, 0.431373, 0.752941)
+
+[node name="Slot1" type="ColorRect" parent="Control/HotBar"]
+layout_mode = 0
+offset_left = 128.0
+offset_right = 224.0
+offset_bottom = 96.0
+color = Color(0.431373, 0.431373, 0.431373, 0.752941)
+
+[node name="Slot2" type="ColorRect" parent="Control/HotBar"]
+layout_mode = 0
+offset_left = 256.0
+offset_right = 352.0
+offset_bottom = 96.0
+color = Color(0.431373, 0.431373, 0.431373, 0.752941)
+
+[node name="Weapon0" type="TextureRect" parent="Control/HotBar"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 24.0
+offset_bottom = 24.0
+scale = Vector2(8, 8)
+texture = ExtResource("2_ebfy0")
+
+[node name="Weapon1" type="TextureRect" parent="Control/HotBar"]
+layout_mode = 0
+offset_left = 146.0
+offset_top = 16.0
+offset_right = 154.0
+offset_bottom = 24.0
+scale = Vector2(8, 8)
+texture = ExtResource("2_ebfy0")
+
+[node name="Weapon2" type="TextureRect" parent="Control/HotBar"]
+layout_mode = 0
+offset_left = 272.0
+offset_top = 16.0
+offset_right = 280.0
+offset_bottom = 24.0
+scale = Vector2(8, 8)
+texture = ExtResource("2_ebfy0")
+
+[node name="Cooldown0" type="TextureProgressBar" parent="Control/HotBar"]
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+fill_mode = 4
+texture_progress = SubResource("PlaceholderTexture2D_64d17")
+tint_progress = Color(1, 0.662745, 0, 0.501961)
+
+[node name="Cooldown1" type="TextureProgressBar" parent="Control/HotBar"]
+layout_mode = 0
+offset_left = 128.0
+offset_right = 224.0
+offset_bottom = 96.0
+fill_mode = 4
+texture_progress = SubResource("PlaceholderTexture2D_64d17")
+tint_progress = Color(1, 0.662745, 0, 0.501961)
+
+[node name="Cooldown2" type="TextureProgressBar" parent="Control/HotBar"]
+layout_mode = 0
+offset_left = 256.0
+offset_right = 352.0
+offset_bottom = 96.0
+fill_mode = 4
+texture_progress = SubResource("PlaceholderTexture2D_64d17")
+tint_progress = Color(1, 0.662745, 0, 0.501961)
